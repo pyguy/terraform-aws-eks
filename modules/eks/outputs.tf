@@ -19,13 +19,14 @@ data:
         - system:nodes
 CONFIGMAPAWSAUTH
 
+
   kubeconfig = <<KUBECONFIG
 
 apiVersion: v1
 clusters:
 - cluster:
     server: ${aws_eks_cluster.eks.endpoint}
-    certificate-authority-data: ${aws_eks_cluster.eks.certificate_authority.0.data}
+    certificate-authority-data: ${aws_eks_cluster.eks.certificate_authority[0].data}
   name: kubernetes
 contexts:
 - context:
@@ -46,12 +47,14 @@ users:
         - "-i"
         - "${var.cluster-name}"
 KUBECONFIG
+
 }
 
 output "config-map-aws-auth" {
-  value = "${local.config-map-aws-auth}"
+value = local.config-map-aws-auth
 }
 
 output "kubeconfig" {
-  value = "${local.kubeconfig}"
+value = local.kubeconfig
 }
+
